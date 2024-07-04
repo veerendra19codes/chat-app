@@ -1,14 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from "axios";
 import { useUserContext } from '../contexts/userContext';
-// import { v4 as uuid } from "uuid";
-
-const Messages = ({ selectedUser, socket }) => {
+import { useSelectedUserContext } from '../contexts/selectedUserContext';
+import { useNavigate } from 'react-router-dom';
+import { useSocketContext } from '../contexts/socketContext';
+const MobileMessages = () => {
+    const socket = useSocketContext();
+    const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
     const [currentChat, setCurrentChat] = useState([]);
     const [recievedMessage, setRecievedMessage] = useState("");
+    const { selectedUser } = useSelectedUserContext();
     // console.log("selectedUser:", selectedUser);
+    // const [selectedUser, setSelectedUser] = useState({})
     const userId = useUserContext();
     // console.log("userId:", userId);
     const scrollRef = useRef();
@@ -47,7 +52,7 @@ const Messages = ({ selectedUser, socket }) => {
     }
 
     useEffect(() => {
-        if (socket.current) {
+        if (socket?.current) {
             console.log("socket connection established")
             socket.current.on("msg-recieve", (msg) => {
                 console.log("msg:", msg);
@@ -104,6 +109,20 @@ const Messages = ({ selectedUser, socket }) => {
         newMessage();
     }, [allMessages, selectedUser]);
 
+    useEffect(() => {
+        if (!selectedUser) {
+            navigate("/");
+        }
+    }, [])
+
+    const splitMessage = (message, length) => {
+        const parts = [];
+        for (let i = 0; i < message.length; i += length) {
+            parts.push(message.slice(i, i + length));
+        }
+        return parts;
+    }
+
 
     if (!selectedUser) {
         return (
@@ -113,16 +132,19 @@ const Messages = ({ selectedUser, socket }) => {
     else {
         return (
 
-            <div className="hidden sm:block w-full sm:w-4/5 h-full bg-gray-600 justify-between relative">
-                <div className="selectedUser h-12 py-2 justify-start pl-4 bg-slate-700 text-white text-xl">
+            <div className="w-full h-[570px] bg-gray-600 justify-between relative">
+                <div className="selectedUser h-[50px] py-2 justify-start pl-4 bg-gray-900 text-white text-xl">
                     {selectedUser.username}{selectedUser._id === userId ? "(self)" : ""}
                 </div>
-                <div className="chat p-4 h-[400px] bg-green-900 flex flex-col gap-2 justify-start overflow-y-auto">
+                <div className="chat p-2 h-[470px] bg-green-900 flex flex-col gap-2 justify-start overflow-y-auto">
                     {currentChat?.map((c) => {
                         return (
-                            <div ref={scrollRef} key={c._id} className={c.sender === userId ? "row flex w-full justify-end" : "row flex w-full justify-start"}>
-                                <div className={c.sender === userId ? "message rounded-lg bg-green-700 w-auto p-2 whitespace-nowrap block max-w-fit text-end" : "message rounded-lg bg-green-500 w-auto p-2 whitespace-nowrap block max-w-fit text-end"}>
-                                    {c?.message}
+                            <div ref={scrollRef} key={c._id} className={c.sender === userId ? "row flex w-full justify-end" : "row flex justify-start overflow-x-hidden w-full"}>
+                                <div className={c.sender === userId ? "message rounded-lg bg-green-700 w-auto p-2 whitespace-nowrap block max-w-fit text-end text-white" : "message rounded-lg bg-green-500 w-auto p-2 whitespace-nowrap block max-w-fit text-end text-white"}>
+                                    {/* {c?.message} */}
+                                    {splitMessage(c.message, 20).map((part, index) => (
+                                        <span key={index}>{part}</span>
+                                    ))}
                                 </div>
                             </div>
                         )
@@ -130,7 +152,7 @@ const Messages = ({ selectedUser, socket }) => {
                 </div>
                 <div className="input w-full flex items-center gap-4 px-4 bg-slate-700 h-12 py-2 bottom-0 absolute">
                     <input type="text" placeholder="type your message..." className="w-full h-full  bg-transparent border-[1px] border-gray-400 rounded text-white pl-4 outline-none" value={message} onChange={(e) => setMessage(e.target.value)} />
-                    <button className="bg-blue-500  hover:bg-blue-400 rounded-2xl px-4 py-2" onClick={handleMessageSubmit}>Send</button>
+                    <button className="bg-blue-500 text-white hover:bg-blue-400 rounded-2xl px-4 py-2" onClick={handleMessageSubmit}>Send</button>
                 </div>
             </div>
 
@@ -138,4 +160,4 @@ const Messages = ({ selectedUser, socket }) => {
     }
 }
 
-export default Messages
+export default MobileMessages

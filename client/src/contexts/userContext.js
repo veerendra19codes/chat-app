@@ -1,17 +1,17 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
 const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
     const [userId, setUserId] = useState("");
-    const navigate = useNavigate();
+
+
     useEffect(() => {
         const validateUser = async () => {
             try {
                 const token = localStorage.getItem("userToken");
                 if (!token) {
-                    navigate("/login");
+                    // navigate("/login");
                     return;
                 }
 
@@ -23,17 +23,19 @@ export const UserContextProvider = ({ children }) => {
                 });
 
                 if (res.status !== 201) {
-                    navigate("/login");
+                    // navigate("/login");
                     return;
                 }
-                setUserId(res.data.userId);
+                else {
+                    setUserId(res.data.userId);
+                }
             } catch (err) {
-                console.log("error in chat:", err);
-                navigate("/login");
+                console.log("error in getting userId in userContext:", err);
+                // navigate("/login");
             }
         };
         validateUser();
-    }, [navigate]);
+    }, []);
 
     return (
         <UserContext.Provider value={userId}>

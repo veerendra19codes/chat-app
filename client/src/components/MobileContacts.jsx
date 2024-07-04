@@ -1,7 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useSelectedUserContext } from '../contexts/selectedUserContext';
 
-const Contacts = ({ selectedUser, setSelectedUser }) => {
+const MobileContacts = () => {
+    const { selectedUser, setSelectedUser } = useSelectedUserContext();
+    // console.log("value:", value);
+    const navigate = useNavigate();
+    // const [selectedUser, setSelectedUser] = useState({});
     const [users, setUsers] = useState([]);
     useEffect(() => {
         const getAllUsers = async () => {
@@ -20,6 +26,15 @@ const Contacts = ({ selectedUser, setSelectedUser }) => {
         }
         getAllUsers();
     }, [])
+
+    const handleSelectedUser = (u) => {
+        console.log("u:", u);
+        setSelectedUser(u);
+        navigate("/mobile-chat")
+    }
+    useEffect(() => {
+        console.log("selectedUser inside useEffect:", selectedUser);
+    }, [selectedUser])
     return (
         <div className="contacts w-full sm:w-1/5 min-h-screen sm:h-full sm:flex flex-col justify-start items-center">
 
@@ -27,7 +42,7 @@ const Contacts = ({ selectedUser, setSelectedUser }) => {
             <div className="w-full h-full flex flex-col justify-start items-center px-2 overflow-x-hidden overflow-y-auto">
                 {users?.map((u) => {
                     return (
-                        <div key={u._id} className={selectedUser.username === u.username ? `user m-1 bg-blue-700 hover:bg-blue-600 flex justify-start gap-2 items-center p-2 w-full rounded-lg` : `user m-1 bg-blue-800 hover:bg-blue-600 flex justify-start gap-2 items-center p-2 w-full rounded-lg`} onClick={() => setSelectedUser(u)}>
+                        <div key={u._id} className={selectedUser.username === u.username ? `user m-1 bg-blue-700 hover:bg-blue-600 flex justify-start gap-2 items-center p-2 w-full rounded-lg` : `user m-1 bg-blue-800 hover:bg-blue-600 flex justify-start gap-2 items-center p-2 w-full rounded-lg`} onClick={() => handleSelectedUser(u)}>
                             <div className="avatar size-8 rounded-full bg-gray-500 text-white flex justify-center items-center uppercase text-xl">
                                 {u.username[0]}
                             </div>
@@ -42,4 +57,4 @@ const Contacts = ({ selectedUser, setSelectedUser }) => {
     )
 }
 
-export default Contacts
+export default MobileContacts

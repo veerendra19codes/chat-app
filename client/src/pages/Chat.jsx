@@ -1,18 +1,41 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import Chatbox from '../components/Chatbox';
-import { io } from "socket.io-client"
-import { useUserContext } from '../contexts/userContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useSocketContext } from '../contexts/socketContext';
 
 function Chat() {
-    const socket = useRef();
-    const userId = useUserContext();
+    const socket = useSocketContext();
 
+    const navigate = useNavigate();
     useEffect(() => {
-        if (userId) {
-            socket.current = io(process.env.REACT_APP_BACKEND_URL);
-            socket.current.emit("add-user", userId);
-        }
-    }, [userId])
+        const validateUser = async () => {
+            try {
+                const token = localStorage.getItem("userToken");
+                if (!token) {
+                    navigate("/login");
+                    return;
+                }
+
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/validUser`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authentication": token,
+                    }
+                });
+
+                if (res.status !== 201) {
+                    navigate("/login");
+                    return;
+                }
+                // setUserId(res.data.userId);
+            } catch (err) {
+                console.log("error in chat:", err);
+                navigate("/login");
+            }
+        };
+        validateUser();
+    }, [navigate]);
 
     return (
         <div className="flex justify-center items-start bg-gray-900 min-h-screen w-full text-white">

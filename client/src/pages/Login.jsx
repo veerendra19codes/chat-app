@@ -41,7 +41,7 @@ const Login = () => {
     }
 
     const toastOptions = {
-        position: "bottom-right",
+        position: "top-right",
         theme: 'dark',
     }
 

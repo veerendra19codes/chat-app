@@ -4,6 +4,7 @@ import Chat from './pages/Chat'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Navbar from './components/Navbar'
+import MobileMessages from './components/MobileMessages'
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
         <Route path='/' element={<Chat />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/mobile-chat' element={<MobileMessages />} />
       </Routes>
     </>        
   )
