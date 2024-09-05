@@ -13,7 +13,6 @@ const MobileMessages = () => {
     const [recievedMessage, setRecievedMessage] = useState("");
     const { selectedUser } = useSelectedUserContext();
     // console.log("selectedUser:", selectedUser);
-    // const [selectedUser, setSelectedUser] = useState({})
     const userId = useUserContext();
     // console.log("userId:", userId);
     const scrollRef = useRef();
@@ -31,11 +30,13 @@ const MobileMessages = () => {
                 to: selectedUser._id,
                 from: userId,
                 message,
+                users: [userId, selectedUser._id],
+                sender: userId,
             })
 
             const msgs = [...currentChat];
             console.log("msg.length before:", msgs.length);
-            msgs.push({ _id: new Date().getTime(), message, sender: userId });
+            msgs.push({ _id: new Date().getTime(), message, sender: userId, users: [userId, selectedUser._id] });
             // msgs.push(message);
 
             setCurrentChat(msgs);
@@ -56,7 +57,7 @@ const MobileMessages = () => {
             console.log("socket connection established")
             socket.current.on("msg-recieve", (msg) => {
                 console.log("msg:", msg);
-                const arrivedMessage = { _id: new Date().getTime(), message, sender: "" };
+                const arrivedMessage = { _id: new Date().getTime(), message: msg, sender: selectedUser._id, users: [userId, selectedUser._id] };
                 console.log("arrivedMessage:", arrivedMessage);
                 setRecievedMessage(arrivedMessage);
             })
@@ -70,9 +71,14 @@ const MobileMessages = () => {
 
     useEffect(() => {
         if (recievedMessage) {
+            console.log("recieved message:", recievedMessage);
             setCurrentChat((prev) => [...prev, recievedMessage])
         }
     }, [recievedMessage])
+
+    useEffect(() => {
+        console.log("currentChat:", currentChat);
+    }, [currentChat]);
 
     // useEffect(() => {
     //     scrollRef.current?.scrollIntoView({ behaviour: "smooth" })
@@ -104,13 +110,14 @@ const MobileMessages = () => {
                 m.users.includes(selectedUser._id) &&
                 m.users.includes(userId));
             // console.log("chat:", chat);
+            setCurrentChat("");
             setCurrentChat(chat);
         }
         newMessage();
     }, [allMessages, selectedUser]);
 
     useEffect(() => {
-        if (!selectedUser) {
+        if (!selectedUser._id) {
             navigate("/");
         }
     }, [])
@@ -137,7 +144,7 @@ const MobileMessages = () => {
                     {selectedUser.username}{selectedUser._id === userId ? "(self)" : ""}
                 </div>
                 <div className="chat p-2 h-[470px] bg-green-900 flex flex-col gap-2 justify-start overflow-y-auto">
-                    {currentChat?.map((c) => {
+                    {currentChat.map((c) => {
                         return (
                             <div ref={scrollRef} key={c._id} className={c.sender === userId ? "row flex w-full justify-end" : "row flex justify-start overflow-x-hidden w-full"}>
                                 <div className={c.sender === userId ? "message rounded-lg bg-green-700 w-auto p-2 whitespace-nowrap block max-w-fit text-end text-white" : "message rounded-lg bg-green-500 w-auto p-2 whitespace-nowrap block max-w-fit text-end text-white"}>

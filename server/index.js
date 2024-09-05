@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const authRoute= require("./routes/authRoute")
 const usersRoute = require("./routes/usersRoute")
 const messageRoute = require("./routes/messageRoute")
+const groupRoute = require("./routes/groupRoute")
+
 require("dotenv").config();
 const socket = require("socket.io")
 
@@ -14,6 +16,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/send-message", messageRoute);
 app.use("/api/get-messages", messageRoute);
+app.use("/api/create-group", groupRoute )
 
 
 mongoose.connect(process.env.MONGO_URL)

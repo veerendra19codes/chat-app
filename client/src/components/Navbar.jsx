@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useUserContext } from '../contexts/userContext';
 import axios from 'axios';
 import { LogOut } from "lucide-react"
@@ -13,7 +13,7 @@ const Navbar = () => {
     const [username, setUsername] = useState("");
 
     const userId = useUserContext();
-    console.log("userId in navbar:", userId);
+    // console.log("userId in navbar:", userId);
 
 
     const handleLogout = () => {
@@ -47,11 +47,24 @@ const Navbar = () => {
         theme: 'dark',
     }
 
-    useEffect(() => {
-        if (username) {
-            toast.success(`welcome ${username}`, toastOptions);
-        }
-    }, [username])
+    // useEffect(() => {
+    //     if (username) {
+    //         toast.success(`welcome ${username}`, toastOptions);
+    //     }
+    // }, [username])
+
+    const list = [
+        {
+            id: 1,
+            name: 'chat',
+            path: '/',
+        },
+        // {
+        //     id: 2,
+        //     name: 'groups',
+        //     path: '/groups',
+        // },
+    ]
 
 
     if (location.pathname === "/login" || location.pathname === "/register") return null;
@@ -60,6 +73,13 @@ const Navbar = () => {
         <>
             <div className="h-16 w-full shadow-2xl flex px-4 lg:px-12 bg-slate-700 items-center justify-between">
                 <div className="logo font-black text-lg lg:text-3xl text-blue-500">ChatBudd</div>
+                <menu className="flex gap-4">
+                    {list.map((l) => {
+                        return (
+                            <Link key={l.id} to={l.path} className="hover:underline username text-white text-sm lg:text-lg">{l.name}</Link>
+                        )
+                    })}
+                </menu>
                 <div className="logout flex gap-4 items-center">
                     {username && <div className="username text-white text-sm lg:text-lg">Hi {username}</div>}
                     <button className="bg-red-500 hover:bg-red-400 rounded px-2 sm:px-4 py-2 text-white flex items-center gap-4" onClick={handleLogout}><span className="hidden sm:block">Log out</span><LogOut fontSize={4} /></button>
