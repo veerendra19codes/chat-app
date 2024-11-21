@@ -10,7 +10,7 @@ const Messages = ({ selectedUser, socket }) => {
     const [recievedMessage, setRecievedMessage] = useState("");
     // console.log("selectedUser:", selectedUser);
     const userId = useUserContext();
-    // console.log("userId:", userId);
+    console.log("userId:", userId);
     const scrollRef = useRef();
 
     const handleMessageSubmit = async () => {

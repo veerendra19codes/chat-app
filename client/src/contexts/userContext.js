@@ -27,6 +27,7 @@ export const UserContextProvider = ({ children }) => {
                     return;
                 }
                 else {
+                    console.log("res of user:", res);
                     setUserId(res.data.userId);
                 }
             } catch (err) {
