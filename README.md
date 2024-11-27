@@ -68,15 +68,15 @@ Follow these steps to set up and run the application locally.
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd real-time-chat-app
+    ```bash
+    git clone <repository-url>
+    cd real-time-chat-app
 
 2. Install dependencies for both the backend and frontend:
-  ```bash
-  # Backend
-  cd backend
-  npm install
+    ```bash
+    # Backend
+    cd backend
+    npm install
 
   # Frontend
   cd ../frontend
