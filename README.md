@@ -87,31 +87,33 @@ Follow these steps to set up and run the application locally.
 
 Create .env files in both the backend and frontend directories.
 
-Backend .env:
+1. Backend .env:
     ```bash
     PORT=5000
     MONGO_URI=<your-mongodb-connection-string>
     JWT_SECRET=<your-jwt-secret>
 
-Frontend .env:
+2. Frontend .env:
     ```bash
     REACT_APP_BACKEND_URL=http://localhost:5000
   
 ### Running the Application
 
-Start the backend server:
+1. Start the backend server:
     ```bash
     cd backend
     npm install
     npm start
 
-Start the frontend development server:
+2. Start the frontend development server:
     ```bash
     cd frontend
     npm install
     npm start
 
 Open the app in your browser at http://localhost:3000.
+
+---
 
 Deployment:
 
@@ -124,12 +126,16 @@ Update .env files with production values.
 Push your code to GitHub and connect it to your hosting services.
 For Netlify or Vercel, ensure the frontend is set to use the correct backend URL.
 
+---
+
 ### Future Improvements
 
 Improve UI design for better user experience.
 Add group chat functionality.
 Enhance typing indicator for multiple users.
 Integrate push notifications for new messages.
+
+---
 
 Author
 Name: Veerendra Gumate
