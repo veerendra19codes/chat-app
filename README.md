@@ -138,9 +138,10 @@ Integrate push notifications for new messages.
 ---
 
 ### Author:
-Name: Veerendra Gumate.
-GitHub: https://github.com/veerendra19codes.
-LinkedIn: https://linkedin.in/in/veerendragumate.
+
+- **Name**: Veerendra Gumate
+- **GitHub**: https://github.com/veerendra19codes
+- **LinkedIn**: https://linkedin.in/in/veerendragumate
 
 
 
