@@ -88,7 +88,6 @@ Follow these steps to set up and run the application locally.
 Create .env files in both the backend and frontend directories.
 
 Backend .env:
-env
     ```bash
     PORT=5000
     MONGO_URI=<your-mongodb-connection-string>
@@ -107,7 +106,6 @@ Start the backend server:
     npm start
 
 Start the frontend development server:
-
     ```bash
     cd frontend
     npm install
@@ -115,16 +113,14 @@ Start the frontend development server:
 
 Open the app in your browser at http://localhost:3000.
 
-Deployment
-This app is deployed on:
+Deployment:
 
+This app is deployed on:
 Frontend: Netlify or Vercel
 Backend: Render 
 
 To deploy, follow these steps:
-
 Update .env files with production values.
-
 Push your code to GitHub and connect it to your hosting services.
 For Netlify or Vercel, ensure the frontend is set to use the correct backend URL.
 
