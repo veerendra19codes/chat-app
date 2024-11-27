@@ -78,9 +78,9 @@ Follow these steps to set up and run the application locally.
     cd backend
     npm install
 
-  # Frontend
-  cd ../frontend
-  npm install
+    # Frontend
+    cd ../frontend
+    npm install
 
 
 ### Environment Variables
@@ -89,29 +89,29 @@ Create .env files in both the backend and frontend directories.
 
 Backend .env:
 env
-  ```bash
-  PORT=5000
-  MONGO_URI=<your-mongodb-connection-string>
-  JWT_SECRET=<your-jwt-secret>
+    ```bash
+    PORT=5000
+    MONGO_URI=<your-mongodb-connection-string>
+    JWT_SECRET=<your-jwt-secret>
 
 Frontend .env:
-  ```bash
-  REACT_APP_BACKEND_URL=http://localhost:5000
+    ```bash
+    REACT_APP_BACKEND_URL=http://localhost:5000
   
 ### Running the Application
 
 Start the backend server:
-  ```bash
-  cd backend
-  npm install
-  npm start
+    ```bash
+    cd backend
+    npm install
+    npm start
 
 Start the frontend development server:
 
-  ```bash
-  cd frontend
-  npm install
-  npm start
+    ```bash
+    cd frontend
+    npm install
+    npm start
 
 Open the app in your browser at http://localhost:3000.
 
